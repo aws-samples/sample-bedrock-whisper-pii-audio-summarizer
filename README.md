@@ -130,8 +130,8 @@ cdk deploy
 ```
 
 **Important**: After deployment completes, CDK will output several values. Make note of:
-- `ApiEndpoint` - Your API Gateway URL (e.g., `https://phrxbhfri5.execute-api.us-west-1.amazonaws.com/prod/`)
-- `CloudFrontURL` - Your CloudFront distribution URL (e.g., `dfkwm5303lopi.cloudfront.net`)
+- `ApiEndpoint` - Your API Gateway URL (e.g., `https://xxxxxxxxxxxx.execute-api.us-west-2.amazonaws.com/prod/`)
+- `CloudFrontURL` - Your CloudFront distribution URL (e.g., `xxxxxxxxxx.cloudfront.net`)
 - The S3 bucket name for frontend hosting (e.g., `frontend-ui-websitebucketXXXXXXXX`)
 
 The backend deployment creates:
@@ -157,7 +157,7 @@ Edit the `src/config.js` file to point to your API Gateway endpoint:
 
 ```javascript
 // Replace with your actual API endpoint from the CDK output
-export const API_GATEWAY_ENDPOINT = 'https://phrxbhfri5.execute-api.us-west-1.amazonaws.com/prod';
+export const API_GATEWAY_ENDPOINT = 'https://xxxxxxxxxxxx.execute-api.us-west-2.amazonaws.com/prod';
 ```
 
 **Build and deploy the frontend**:
@@ -178,7 +178,7 @@ aws cloudfront create-invalidation --distribution-id DISTRIBUTION_ID --paths "/*
 
 1. **Access the application**:
    - Open your web browser and navigate to your CloudFront URL
-   - Example: `https://dfkwm5303lopi.cloudfront.net`
+   - Example: `https://xxxxxxxxxx.cloudfront.net`
 
 2. **Test with a WAV file**:
    - Prepare a WAV file for testing, or convert an MP4 to WAV using the conversion instructions
@@ -210,7 +210,7 @@ aws cloudfront create-invalidation --distribution-id DISTRIBUTION_ID --paths "/*
 
 1. **Access the Application**
    - Open your browser and navigate to the CloudFront URL from the deployment outputs
-   - Example: `https://dfkwm5303lopi.cloudfront.net`
+   - Example: `https://xxxxxxxxxx.cloudfront.net`
 
 2. **Upload a WAV File**
    - Click the upload button or drag and drop a WAV file into the upload area

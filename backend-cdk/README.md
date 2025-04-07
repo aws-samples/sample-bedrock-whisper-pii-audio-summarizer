@@ -104,14 +104,14 @@ npx cdk deploy
    ✅ YourStackName
    
    Outputs:
-   YourStackName.ApiEndpoint = https://abc123def.execute-api.region.amazonaws.com/prod/
+   YourStackName.ApiEndpoint = https://xxxxxxxxxxxx.execute-api.region.amazonaws.com/prod/
    YourStackName.CloudFrontURL = d1234abcdef.cloudfront.net
    ```
 
 5. Copy these output values directly from your terminal and use them in your frontend configuration:
    ```javascript
    // In frontend-ui/src/config.js
-   export const API_ENDPOINT = 'https://abc123def.execute-api.region.amazonaws.com/prod/'; // The ApiEndpoint value from CDK output
+   export const API_ENDPOINT = 'https://xxxxxxxxxxxx.execute-api.region.amazonaws.com/prod/'; // The ApiEndpoint value from CDK output
    ```
 
 6. Alternative: If you need to retrieve these values later, you can use the AWS CLI:

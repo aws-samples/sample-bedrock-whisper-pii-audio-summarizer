@@ -6,11 +6,11 @@ const isProduction = !hostname.includes('localhost') && !hostname.includes('127.
 
 // API endpoints configuration
 export const API_GATEWAY_ENDPOINT = isProduction
-  ? 'https://phrxbhfri5.execute-api.us-west-1.amazonaws.com/prod'  // Direct API Gateway endpoint
+  ? 'https://xxxxxxxxxxxx.execute-api.us-west-2.amazonaws.com/prod'  // Replace with your actual API Gateway endpoint
   : 'http://localhost:3000';  // Local development
 
 // CloudFront URL for production
-export const CLOUDFRONT_URL = 'https://dfkwm5303lopi.cloudfront.net';
+export const CLOUDFRONT_URL = 'https://xxxxxxxxxx.cloudfront.net';  // Replace with your actual CloudFront URL
 
 // Use API Gateway for upload URL and CloudFront for summary endpoints
 export const GET_UPLOAD_URL_ENDPOINT = API_GATEWAY_ENDPOINT;  // Direct to API Gateway

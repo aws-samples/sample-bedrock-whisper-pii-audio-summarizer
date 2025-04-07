@@ -34,7 +34,7 @@ This document summarizes the common issues you might encounter when setting up a
   npx cdk deploy
   ```
 
-- **Issue**: CloudFront URL (e.g., "dfkwm5303lopi.cloudfront.net") shows "Access Denied" after deployment.
+- **Issue**: CloudFront URL (e.g., "xxxxxxxxxx.cloudfront.net") shows "Access Denied" after deployment.
 - **Solution**: This can be caused by several factors:
   1. **Frontend not deployed yet**: Build and deploy the frontend files to the UI S3 bucket
      ```bash
