@@ -1,0 +1,23 @@
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1f25 0%, #282c34 100%);
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .App-header {
+    padding: 20px 16px;
+  }
+}

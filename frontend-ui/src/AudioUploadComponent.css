@@ -1,0 +1,22 @@
+/* Style your audio upload component accordingly */
+/* Example styles */
+.audio-upload-component {
+  /* Existing styles */
+  width: 100%; /* Components take full width */
+  border-right: none; /* Remove divider */
+  border-bottom: 1px solid #555; /* Optional: Add a bottom border */
+}
+
+.audio-upload-component button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #61dafb;
+  color: #282c34;
+  cursor: pointer;
+}
+
+.audio-upload-component button:hover {
+  background-color: #21a1f1;
+}

@@ -1,0 +1,8 @@
+{
+  "httpMethod": "GET",
+  "path": "/summaries",
+  "headers": {
+    "Origin": "https://your-frontend-domain.com"
+  },
+  "queryStringParameters": {}
+}

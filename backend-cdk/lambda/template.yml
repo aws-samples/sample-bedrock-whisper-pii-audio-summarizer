@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref SummaryBucket
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /summaries
+            Method: GET
+
+  SummaryBucket:
+    Type: AWS::S3::Bucket

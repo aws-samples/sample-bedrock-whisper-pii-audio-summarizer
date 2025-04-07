@@ -1,0 +1,159 @@
+{
+    "Comment": "State Machine to transcribe voice calls into sentiment and drive notification processing.",
+    "StartAt": "TranscriptionMethod",
+    "States": {
+      "TranscriptionMethod": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.useWhisper",
+            "BooleanEquals": true,
+            "Next": "WhisperTranscription"
+          }
+        ],
+        "Default": "StartTranscriptionJob"
+      },
+
+      "WhisperTranscription": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+          "FunctionName": "${WhisperTranscriptionFunction}",
+          "Payload.$": "$"
+        },
+        "ResultPath": "$.TranscriptionJob",
+        "Next": "WhisperTranscriptionStatus"
+      },
+
+      "WhisperTranscriptionStatus": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.TranscriptionJob.Payload.TranscriptionJob.TranscriptionJobStatus",
+            "StringEquals": "COMPLETED",
+            "Next": "Speaker Identification"
+          },
+          {
+            "Variable": "$.TranscriptionJob.Payload.TranscriptionJob.TranscriptionJobStatus",
+            "StringEquals": "FAILED",
+            "Next": "Fail"
+          }
+        ],
+        "Default": "Fail"
+      },
+
+      "StartTranscriptionJob": {
+        "Type": "Task",
+        "Parameters": {
+          "Media": {
+            "MediaFileUri.$": "States.Format('s3://{}/{}', $.detail.bucket.name, $.detail.object.key)"
+          },
+          "LanguageCode": "en-US",
+          "Settings": {
+            "ShowSpeakerLabels": "true",
+            "MaxSpeakerLabels": 30
+          },
+          "TranscriptionJobName.$": "States.Format('Transcription-Job-{}', States.ArrayGetItem(States.StringSplit($.detail.object.key, '/'), 1))",
+          "OutputBucketName": "${SummariesBucket}",
+          "OutputKey.$": "States.Format('Transcription-Output-for-{}.txt', $.detail.object.key)"
+        },
+        "Resource": "arn:aws:states:::aws-sdk:transcribe:startTranscriptionJob",
+        "ResultPath": "$.TranscriptionJob",
+        "Next": "Wait for Transcription to complete"
+      },
+      "Wait for Transcription to complete": {
+        "Type": "Wait",
+        "Seconds": 30,
+        "Next": "GetTranscriptionJob"
+      },
+      "GetTranscriptionJob": {
+        "Type": "Task",
+        "Next": "TranscriptionJobStatus",
+        "Parameters": {
+          "TranscriptionJobName.$": "States.Format('Transcription-Job-{}', States.ArrayGetItem(States.StringSplit($.detail.object.key, '/'), 1))"
+        },
+        "Resource": "arn:aws:states:::aws-sdk:transcribe:getTranscriptionJob",
+        "ResultPath": "$.TranscriptionJob"
+      },
+      "TranscriptionJobStatus": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.TranscriptionJob.TranscriptionJob.TranscriptionJobStatus",
+            "StringEquals": "COMPLETED",
+            "Next": "Speaker Identification"
+          },
+          {
+            "Variable": "$.TranscriptionJob.TranscriptionJob.TranscriptionJobStatus",
+            "StringEquals": "FAILED",
+            "Next": "Fail"
+          }
+        ],
+        "Default": "Wait for Transcription to complete"
+      },
+      "Speaker Identification": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+          "FunctionName": "${SpeakerIdentificationFunction}",
+          "Payload.$": "$"
+        },
+        "ResultPath": "$.LambdaResult",
+        "Next": "Process Speaker Identification"
+      },
+      "Process Speaker Identification": {
+        "Type": "Pass",
+        "Parameters": {
+          "bucket_name.$": "$.LambdaResult.Payload.bucket_name",
+          "object_key.$": "$.LambdaResult.Payload.object_key"
+        },
+        "ResultPath": "$.SpeakerIdentification",
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException",
+              "Lambda.TooManyRequestsException"
+            ],
+            "IntervalSeconds": 1,
+            "MaxAttempts": 3,
+            "BackoffRate": 2
+          }
+        ],
+        "Next": "Bedrock Summarization"
+      },
+      "Bedrock Summarization": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+          "FunctionName": "${BedrockSummaryFunction}",
+          "Payload": {
+            "detail.$": "$.detail",
+            "TranscriptionJob.$": "$.TranscriptionJob",
+            "SpeakerIdentification.$": "$.SpeakerIdentification"
+          }
+        },
+        "ResultPath": "$.BedrockSummary",
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException",
+              "Lambda.TooManyRequestsException"
+            ],
+            "IntervalSeconds": 1,
+            "MaxAttempts": 3,
+            "BackoffRate": 2
+          }
+        ],
+        "End": true
+      },
+      "Fail": {
+        "Type": "Fail",
+        "Error": "FAILED",
+        "Cause": "transcription job failed"
+      }
+    }
+}

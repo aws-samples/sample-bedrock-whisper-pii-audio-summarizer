@@ -1,0 +1,93 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.eslintcache
+.node_repl_history
+.yarn-integrity
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.tgz
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# AWS specific
+.aws-sam/
+samconfig.toml
+.chalice/deployments/
+*.env
+*.aws-credentials
+
+# Project specific files
+*.mp3
+*.wav
+*.mp4
+*.log
+tmp/
+temp/
+output/
+secrets.json
+credentials.json
+
+# Project specific directories
+# AWS CDK outputs
+backend-cdk/cdk.out/
+# Generated JavaScript from TypeScript
+backend-cdk/**/*.js
+backend-cdk/**/*.d.ts
+!backend-cdk/cors-function.js
+# Node modules
+frontend-ui/node_modules/
+backend-cdk/node_modules/
