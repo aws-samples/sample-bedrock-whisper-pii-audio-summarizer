@@ -28,11 +28,6 @@ This project provides a simple audio upload interface with automatic transcripti
    - Summary generation
 3. Results displayed in UI with redacted content
 
-## Quick Links
-
-- Frontend URL: https://dfkwm5303lopi.cloudfront.net
-- API Endpoint: https://phrxbhfri5.execute-api.us-west-1.amazonaws.com/prod/
-
 ## File Requirements
 
 ### WAV Format Required
