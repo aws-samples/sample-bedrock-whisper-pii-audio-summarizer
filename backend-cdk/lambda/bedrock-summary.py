@@ -121,7 +121,7 @@ def lambda_handler(event, context):
     })
     
     # Invoke the model
-    modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
+    modelId = "anthropic.claude-3-5-sonnet-20240620-v1:0"
     response = bedrock.invoke_model(body=body, modelId=modelId)
     
     # Parse the response
