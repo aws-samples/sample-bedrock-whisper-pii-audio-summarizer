@@ -141,6 +141,22 @@ The backend deployment creates:
 - IAM roles and policies for secure access
 - CloudFront distribution for hosting the frontend
 
+**Configuring the Whisper Endpoint**:
+
+By default, the application uses a SageMaker Whisper endpoint named 'endpoint-quick-start-n6adv' deployed from AWS Bedrock Marketplace. To use your own endpoint:
+
+1. Open `backend-cdk/lib/audio-summarizer-stack.ts`
+2. Find the WhisperTranscriptionFunction declaration and update the WHISPER_ENDPOINT value:
+   ```typescript
+   environment: {
+     // Other variables...
+     WHISPER_ENDPOINT: 'your-custom-endpoint-name' // Change this line
+   }
+   ```
+3. Save the file before deploying
+
+See the [backend-cdk README](backend-cdk/README.md#whisper-endpoint-configuration) for more details on configuring the Whisper endpoint.
+
 ### Step 3: Configure and Deploy the Frontend
 
 ```bash

@@ -474,8 +474,8 @@ def lambda_handler(event, context):
         s3 = boto3.client('s3')
         # Use SageMaker runtime for SageMaker endpoints
         sagemaker_runtime = boto3.client('sagemaker-runtime', region_name='us-east-1')
-        # Use your SageMaker Whisper endpoint name (not the full ARN)
-        endpoint_name = 'endpoint-quick-start-n6adv'
+        # Use SageMaker Whisper endpoint name from environment variable or fallback to default
+        endpoint_name = os.environ.get('WHISPER_ENDPOINT', 'endpoint-quick-start-n6adv')
         
         print(f"Using SageMaker endpoint: {endpoint_name}")
         

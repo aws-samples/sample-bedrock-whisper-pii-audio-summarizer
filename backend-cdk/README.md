@@ -132,6 +132,30 @@ npx cdk deploy
 - Lambda function timeout is set to 900 seconds
 - CloudFront is configured for Single Page Application hosting
 
+## Whisper Endpoint Configuration
+
+The application uses a SageMaker Whisper endpoint deployed from the AWS Bedrock Marketplace for audio transcription. The endpoint name can be configured in two ways:
+
+1. **Environment Variable**: The Lambda function looks for a `WHISPER_ENDPOINT` environment variable
+   - This is defined in the CDK stack (`audio-summarizer-stack.ts`)
+   - Modify this value before deployment to use your own SageMaker Whisper endpoint
+
+```typescript
+// In audio-summarizer-stack.ts
+environment: {
+  // Other environment variables...
+  WHISPER_ENDPOINT: 'your-whisper-endpoint-name' // Change this to your endpoint name
+}
+```
+
+2. **Fallback Value**: If the environment variable is not set, it will use the default value ('endpoint-quick-start-n6adv')
+
+When creating your own SageMaker Whisper endpoint, make sure it:
+- Is deployed from AWS Bedrock Marketplace or other sources with OpenAI Whisper compatibility
+- Is deployed in the 'us-east-1' region (or update the region in the Lambda code)
+- Uses a model compatible with the Whisper API format
+- Has the correct IAM permissions to be invoked by the Lambda function
+
 ## Security Features
 
 ### PII Redaction with AWS Bedrock Guardrails
