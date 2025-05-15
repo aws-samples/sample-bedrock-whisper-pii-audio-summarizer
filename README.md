@@ -107,7 +107,7 @@ This section provides detailed step-by-step instructions for deploying both the 
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/sample-bedrock-whisper-pii-audio-summarizer.git
+git clone https://github.com/aws-samples/sample-bedrock-whisper-pii-audio-summarizer.git
 
 # Navigate to the project directory
 cd sample-bedrock-whisper-pii-audio-summarizer

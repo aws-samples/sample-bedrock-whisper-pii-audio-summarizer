@@ -11,7 +11,6 @@ import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as tasks from 'aws-cdk-lib/aws-stepfunctions-tasks';
-import { NagSuppressions } from 'cdk-nag';
 
 export class AudioSummarizerStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -558,7 +557,7 @@ export class AudioSummarizerStack extends cdk.Stack {
       ]
     });
 
-    // Create origin access identity for CloudFront (needed for specific cdk-nag rules)
+    // Create origin access identity for CloudFront
     const uiOriginAccessIdentity = new cloudfront.OriginAccessIdentity(this, 'UIOriginAccessIdentity', {
       comment: 'Access to UI bucket'
     });
@@ -614,12 +613,6 @@ export class AudioSummarizerStack extends cdk.Stack {
     });
     
     // Add CDK-nag suppression for CloudFront logging
-    NagSuppressions.addResourceSuppressions(distribution, [
-      {
-        id: 'AwsSolutions-CFR3',
-        reason: 'CloudFront logging disabled to avoid S3 bucket ACL configuration issues'
-      }
-    ]);
 
     new cdk.CfnOutput(this, 'CloudFrontURL', {
       description: 'CloudFront URL',

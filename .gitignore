@@ -10,7 +10,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# Ignore lib/ except in the backend-cdk directory
+/lib/
 lib64/
 parts/
 sdist/
@@ -84,10 +85,13 @@ credentials.json
 # Project specific directories
 # AWS CDK outputs
 backend-cdk/cdk.out/
-# Generated JavaScript from TypeScript
+# Generated JavaScript from TypeScript 
+# Exclude lib directory TypeScript files from being ignored
+!backend-cdk/lib/**/*.ts
 backend-cdk/**/*.js
 backend-cdk/**/*.d.ts
 !backend-cdk/cors-function.js
+!backend-cdk/bin/**/*.js
 # Node modules
 frontend-ui/node_modules/
 backend-cdk/node_modules/
