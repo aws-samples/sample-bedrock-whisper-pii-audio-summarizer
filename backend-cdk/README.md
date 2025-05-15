@@ -174,8 +174,21 @@ The infrastructure includes security features to protect sensitive information i
   ```
 
 - **Configuration**: 
-  - Guardrail ID is configured in the Lambda function code
-  - You must create your own Guardrail in the AWS Bedrock console and update the ARN in your Lambda
+  - Guardrail ID can be configured in two ways:
+    1. **Environment Variable**: The Lambda function looks for a `GUARDRAIL_ID` environment variable
+       - This is defined in the CDK stack (`audio-summarizer-stack.ts`)
+       - Modify this value before deployment to use your own Bedrock guardrail
+
+      ```typescript
+      // In audio-summarizer-stack.ts
+      environment: {
+        // Other environment variables...
+        GUARDRAIL_ID: 'your-guardrail-arn' // Change this to your guardrail ARN
+      }
+      ```
+
+    2. **Fallback Value**: If the environment variable is not set, it will use the default value
+  - You must create your own Guardrail in the AWS Bedrock console
   - API Parameters: Uses `source="OUTPUT"` for proper redaction flow
 
 - **Creating a Bedrock Guardrail**:

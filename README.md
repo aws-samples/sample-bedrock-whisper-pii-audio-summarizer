@@ -157,6 +157,22 @@ By default, the application uses a SageMaker Whisper endpoint named 'endpoint-qu
 
 See the [backend-cdk README](backend-cdk/README.md#whisper-endpoint-configuration) for more details on configuring the Whisper endpoint.
 
+**Configuring the Bedrock Guardrail**:
+
+The application uses AWS Bedrock Guardrails for PII detection and redaction. By default, it uses a pre-configured guardrail, but you can use your own:
+
+1. Open `backend-cdk/lib/audio-summarizer-stack.ts`
+2. Find the BedrockSummaryFunction declaration and update the GUARDRAIL_ID value:
+   ```typescript
+   environment: {
+     // Other variables...
+     GUARDRAIL_ID: 'arn:aws:bedrock:REGION:ACCOUNT_ID:guardrail/YOUR_GUARDRAIL_ID' // Change this line
+   }
+   ```
+3. Save the file before deploying
+
+See the [backend-cdk README](backend-cdk/README.md#pii-redaction-with-aws-bedrock-guardrails) for more details on creating and configuring Bedrock guardrails.
+
 ### Step 3: Configure and Deploy the Frontend
 
 ```bash

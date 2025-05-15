@@ -2,6 +2,7 @@ import json
 import boto3
 import uuid
 import logging
+import os
 
 # Set up logging
 logger = logging.getLogger()
@@ -81,8 +82,8 @@ def lambda_handler(event, context):
     # Use bedrock-runtime for guardrails, not bedrock-agent-runtime
     bedrock_runtime = bedrock  # reuse the same client for both model invocation and guardrails
     
-    # Guardrail ID - using the ARN from the AWS console
-    guardrail_id = "arn:aws:bedrock:us-east-1:064080936720:guardrail/p8upn739dsqw"
+    # Guardrail ID - using the ARN from environment variable or fallback to default
+    guardrail_id = os.environ.get('GUARDRAIL_ID', 'arn:aws:bedrock:us-east-1:064080936720:guardrail/p8upn739dsqw')
     
     # Extract bucket name and object key from the speaker identification output
     speaker_identification = event.get('SpeakerIdentification', {})

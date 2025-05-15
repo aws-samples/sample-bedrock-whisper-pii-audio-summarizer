@@ -142,7 +142,8 @@ export class AudioSummarizerStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(300),
       environment: {
         SUMMARIES_BUCKET: summariesBucket.bucketName,
-        REGION: cdk.Stack.of(this).region
+        REGION: cdk.Stack.of(this).region,
+        GUARDRAIL_ID: 'arn:aws:bedrock:us-east-1:064080936720:guardrail/p8upn739dsqw' // Default guardrail, can be changed here
       },
       logRetention: logs.RetentionDays.ONE_WEEK
     });
@@ -159,6 +160,18 @@ export class AudioSummarizerStack extends cdk.Stack {
         `arn:aws:bedrock:${cdk.Stack.of(this).region}:${cdk.Stack.of(this).account}:model/anthropic.claude-3-sonnet-20240229-v1:0`,
         `arn:aws:bedrock:${cdk.Stack.of(this).region}:${cdk.Stack.of(this).account}:model/anthropic.claude-3-haiku-20240307-v1:0`
       ] // Restricted to specific models
+    }));
+    
+    // Add Bedrock Guardrail permissions
+    bedrockSummaryFunction.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'bedrock:ApplyGuardrail'
+      ],
+      resources: [
+        // Use a template literal with a variable to allow customization
+        '*' // Using wildcard for flexibility, but could be restricted to specific guardrail ARN
+      ]
     }));
 
     // Grant Lambda access to S3 with specific permissions instead of wildcard
