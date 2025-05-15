@@ -72,7 +72,7 @@ export class AudioSummarizerStack extends cdk.Stack {
         UPLOADS_BUCKET: uploadsBucket.bucketName,
         SUMMARIES_BUCKET: summariesBucket.bucketName,
         REGION: cdk.Stack.of(this).region,
-        WHISPER_ENDPOINT: 'endpoint-quick-start-n6adv' // Default endpoint, can be changed here
+        WHISPER_ENDPOINT: '' // Must be configured before deployment
       },
       logRetention: logs.RetentionDays.ONE_WEEK
     });
@@ -143,7 +143,7 @@ export class AudioSummarizerStack extends cdk.Stack {
       environment: {
         SUMMARIES_BUCKET: summariesBucket.bucketName,
         REGION: cdk.Stack.of(this).region,
-        GUARDRAIL_ID: 'arn:aws:bedrock:us-east-1:064080936720:guardrail/p8upn739dsqw' // Default guardrail, can be changed here
+        GUARDRAIL_ID: '' // Must be configured before deployment
       },
       logRetention: logs.RetentionDays.ONE_WEEK
     });

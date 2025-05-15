@@ -143,14 +143,14 @@ The backend deployment creates:
 
 **Configuring the Whisper Endpoint**:
 
-By default, the application uses a SageMaker Whisper endpoint named 'endpoint-quick-start-n6adv' deployed from AWS Bedrock Marketplace. To use your own endpoint:
+The application requires a SageMaker Whisper endpoint deployed from AWS Bedrock Marketplace. You must configure this endpoint before deployment:
 
 1. Open `backend-cdk/lib/audio-summarizer-stack.ts`
 2. Find the WhisperTranscriptionFunction declaration and update the WHISPER_ENDPOINT value:
    ```typescript
    environment: {
      // Other variables...
-     WHISPER_ENDPOINT: 'your-custom-endpoint-name' // Change this line
+     WHISPER_ENDPOINT: 'your-whisper-endpoint-name' // Required - set your endpoint name here
    }
    ```
 3. Save the file before deploying
@@ -159,14 +159,14 @@ See the [backend-cdk README](backend-cdk/README.md#whisper-endpoint-configuratio
 
 **Configuring the Bedrock Guardrail**:
 
-The application uses AWS Bedrock Guardrails for PII detection and redaction. By default, it uses a pre-configured guardrail, but you can use your own:
+The application requires AWS Bedrock Guardrails for PII detection and redaction. You must configure your guardrail before deployment:
 
 1. Open `backend-cdk/lib/audio-summarizer-stack.ts`
 2. Find the BedrockSummaryFunction declaration and update the GUARDRAIL_ID value:
    ```typescript
    environment: {
      // Other variables...
-     GUARDRAIL_ID: 'arn:aws:bedrock:REGION:ACCOUNT_ID:guardrail/YOUR_GUARDRAIL_ID' // Change this line
+     GUARDRAIL_ID: 'arn:aws:bedrock:REGION:ACCOUNT_ID:guardrail/YOUR_GUARDRAIL_ID' // Required - set your guardrail ARN here
    }
    ```
 3. Save the file before deploying

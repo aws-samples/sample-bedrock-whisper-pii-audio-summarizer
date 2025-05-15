@@ -82,8 +82,10 @@ def lambda_handler(event, context):
     # Use bedrock-runtime for guardrails, not bedrock-agent-runtime
     bedrock_runtime = bedrock  # reuse the same client for both model invocation and guardrails
     
-    # Guardrail ID - using the ARN from environment variable or fallback to default
-    guardrail_id = os.environ.get('GUARDRAIL_ID', 'arn:aws:bedrock:us-east-1:064080936720:guardrail/p8upn739dsqw')
+    # Guardrail ID - using the ARN from environment variable (required)
+    guardrail_id = os.environ['GUARDRAIL_ID']
+    if not guardrail_id:
+        raise ValueError("GUARDRAIL_ID environment variable must be set")
     
     # Extract bucket name and object key from the speaker identification output
     speaker_identification = event.get('SpeakerIdentification', {})

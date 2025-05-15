@@ -134,21 +134,19 @@ npx cdk deploy
 
 ## Whisper Endpoint Configuration
 
-The application uses a SageMaker Whisper endpoint deployed from the AWS Bedrock Marketplace for audio transcription. The endpoint name can be configured in two ways:
+The application uses a SageMaker Whisper endpoint deployed from the AWS Bedrock Marketplace for audio transcription. The endpoint name must be configured before deployment:
 
-1. **Environment Variable**: The Lambda function looks for a `WHISPER_ENDPOINT` environment variable
-   - This is defined in the CDK stack (`audio-summarizer-stack.ts`)
-   - Modify this value before deployment to use your own SageMaker Whisper endpoint
+**Environment Variable**: The Lambda function requires a `WHISPER_ENDPOINT` environment variable
+- This is defined in the CDK stack (`audio-summarizer-stack.ts`)
+- You must set this value before deployment to use your SageMaker Whisper endpoint
 
 ```typescript
 // In audio-summarizer-stack.ts
 environment: {
   // Other environment variables...
-  WHISPER_ENDPOINT: 'your-whisper-endpoint-name' // Change this to your endpoint name
+  WHISPER_ENDPOINT: 'your-whisper-endpoint-name' // Required - set your endpoint name here
 }
 ```
-
-2. **Fallback Value**: If the environment variable is not set, it will use the default value ('endpoint-quick-start-n6adv')
 
 When creating your own SageMaker Whisper endpoint, make sure it:
 - Is deployed from AWS Bedrock Marketplace or other sources with OpenAI Whisper compatibility
@@ -174,20 +172,19 @@ The infrastructure includes security features to protect sensitive information i
   ```
 
 - **Configuration**: 
-  - Guardrail ID can be configured in two ways:
-    1. **Environment Variable**: The Lambda function looks for a `GUARDRAIL_ID` environment variable
-       - This is defined in the CDK stack (`audio-summarizer-stack.ts`)
-       - Modify this value before deployment to use your own Bedrock guardrail
+  - Guardrail ID must be configured before deployment:
+    
+    **Environment Variable**: The Lambda function requires a `GUARDRAIL_ID` environment variable
+    - This is defined in the CDK stack (`audio-summarizer-stack.ts`)
+    - You must set this value before deployment to use your Bedrock guardrail
 
-      ```typescript
-      // In audio-summarizer-stack.ts
-      environment: {
-        // Other environment variables...
-        GUARDRAIL_ID: 'your-guardrail-arn' // Change this to your guardrail ARN
-      }
-      ```
-
-    2. **Fallback Value**: If the environment variable is not set, it will use the default value
+    ```typescript
+    // In audio-summarizer-stack.ts
+    environment: {
+      // Other environment variables...
+      GUARDRAIL_ID: 'your-guardrail-arn' // Required - set your guardrail ARN here
+    }
+    ```
   - You must create your own Guardrail in the AWS Bedrock console
   - API Parameters: Uses `source="OUTPUT"` for proper redaction flow
 
