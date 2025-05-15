@@ -117,39 +117,6 @@ cd sample-bedrock-whisper-pii-audio-summarizer
 
 **IMPORTANT**: Before deployment, you must configure the Whisper endpoint and Bedrock Guardrail.
 
-1. Open `backend-cdk/lib/audio-summarizer-stack.ts`
-2. Locate and configure these required values:
-   - Set `WHISPER_ENDPOINT` to your SageMaker Whisper endpoint name
-   - Set `GUARDRAIL_ID` to your Bedrock Guardrail ARN
-
-See the configuration sections below for detailed instructions on setting up these required components.
-
-```bash
-# Navigate to the backend CDK directory
-cd backend-cdk
-
-# Install dependencies
-npm install
-
-# Bootstrap CDK (only needed once per AWS account/region)
-cdk bootstrap aws://$(aws sts get-caller-identity --query 'Account' --output text)/$(aws configure get region)
-
-# Deploy the stack after configuring the required values
-cdk deploy
-```
-
-**Important**: After deployment completes, CDK will output several values. Make note of:
-- `ApiEndpoint` - Your API Gateway URL (e.g., `https://xxxxxxxxxxxx.execute-api.us-west-2.amazonaws.com/prod/`)
-- `CloudFrontURL` - Your CloudFront distribution URL (e.g., `xxxxxxxxxx.cloudfront.net`)
-- The S3 bucket name for frontend hosting (e.g., `frontend-ui-websitebucketXXXXXXXX`)
-
-The backend deployment creates:
-- S3 buckets for storing uploads and processed results
-- Lambda functions for audio processing and PII redaction
-- API Gateway endpoints for handling requests
-- IAM roles and policies for secure access
-- CloudFront distribution for hosting the frontend
-
 **Configuring the Whisper Endpoint**:
 
 The application requires a SageMaker Whisper endpoint deployed from AWS Bedrock Marketplace. You must configure this endpoint before deployment:
@@ -181,6 +148,35 @@ The application requires AWS Bedrock Guardrails for PII detection and redaction.
 3. Save the file before deploying
 
 See the [backend-cdk README](backend-cdk/README.md#pii-redaction-with-aws-bedrock-guardrails) for more details on creating and configuring Bedrock guardrails.
+
+
+Then, see the configuration sections below for detailed instructions on setting up these required components. 
+
+```bash
+# Navigate to the backend CDK directory
+cd backend-cdk
+
+# Install dependencies
+npm install
+
+# Bootstrap CDK (only needed once per AWS account/region)
+cdk bootstrap aws://$(aws sts get-caller-identity --query 'Account' --output text)/$(aws configure get region)
+
+# Deploy the stack after configuring the required values
+cdk deploy
+```
+
+**Important**: After deployment completes, CDK will output several values. Make note of:
+- `ApiEndpoint` - Your API Gateway URL (e.g., `https://xxxxxxxxxxxx.execute-api.us-west-2.amazonaws.com/prod/`)
+- `CloudFrontURL` - Your CloudFront distribution URL (e.g., `xxxxxxxxxx.cloudfront.net`)
+- The S3 bucket name for frontend hosting (e.g., `frontend-ui-websitebucketXXXXXXXX`)
+
+The backend deployment creates:
+- S3 buckets for storing uploads and processed results
+- Lambda functions for audio processing and PII redaction
+- API Gateway endpoints for handling requests
+- IAM roles and policies for secure access
+- CloudFront distribution for hosting the frontend
 
 ### Step 3: Configure and Deploy the Frontend
 
