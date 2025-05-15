@@ -113,7 +113,16 @@ git clone https://github.com/yourusername/sample-bedrock-whisper-pii-audio-summa
 cd sample-bedrock-whisper-pii-audio-summarizer
 ```
 
-### Step 2: Deploy the Backend Infrastructure
+### Step 2: Configure and Deploy the Backend Infrastructure
+
+**IMPORTANT**: Before deployment, you must configure the Whisper endpoint and Bedrock Guardrail.
+
+1. Open `backend-cdk/lib/audio-summarizer-stack.ts`
+2. Locate and configure these required values:
+   - Set `WHISPER_ENDPOINT` to your SageMaker Whisper endpoint name
+   - Set `GUARDRAIL_ID` to your Bedrock Guardrail ARN
+
+See the configuration sections below for detailed instructions on setting up these required components.
 
 ```bash
 # Navigate to the backend CDK directory
@@ -125,7 +134,7 @@ npm install
 # Bootstrap CDK (only needed once per AWS account/region)
 cdk bootstrap aws://$(aws sts get-caller-identity --query 'Account' --output text)/$(aws configure get region)
 
-# Deploy the stack
+# Deploy the stack after configuring the required values
 cdk deploy
 ```
 

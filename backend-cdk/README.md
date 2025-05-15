@@ -62,7 +62,12 @@ npm install typescript ts-node @types/node
 cdk bootstrap aws://$(aws sts get-caller-identity --query 'Account' --output text)/$(aws configure get region)
 ```
 
-4. Deploy the stack:
+4. **REQUIRED**: Configure the Whisper endpoint and Guardrail ID in `lib/audio-summarizer-stack.ts` file:
+   * Find the WhisperTranscriptionFunction and set the `WHISPER_ENDPOINT` environment variable
+   * Find the BedrockSummaryFunction and set the `GUARDRAIL_ID` environment variable
+   * See the configuration sections below for detailed instructions
+
+5. Deploy the stack:
 ```bash
 # If you encounter TypeScript errors, try using npx
 npx cdk deploy
