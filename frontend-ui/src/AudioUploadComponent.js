@@ -88,11 +88,14 @@ const AudioUploadComponent = () => {
       }
 
       // Request pre-signed URL using JSON
+      // Extract filename to match API Gateway validation model
+      const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+      console.log('Requesting upload URL with filename:', file.name);
+      
       const urlResponse = await axios.post(
         `${GET_UPLOAD_URL_ENDPOINT}/get-upload-url`,
         {
-          fileName: file.name,
-          fileType: file.type
+          filename: file.name  // Using filename as required by API validation model
         },
         {
           headers: {

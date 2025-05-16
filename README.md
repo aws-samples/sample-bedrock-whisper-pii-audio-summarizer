@@ -203,12 +203,20 @@ export const API_GATEWAY_ENDPOINT = 'https://xxxxxxxxxxxx.execute-api.us-west-2.
 # Build the production version of the app
 npm run build
 
-# Upload to the S3 bucket (replace with the actual bucket name from CDK output)
-aws s3 sync build/ s3://frontend-ui-websitebucketXXXXXXXX/
+# Get the S3 bucket name from the CDK output
+UIBUCKET=$(aws cloudformation describe-stacks --stack-name SampleBedrockWhisperPiiAudioSummarizerStack --query "Stacks[0].Outputs[?OutputKey=='UIBucketName'].OutputValue" --output text)
+echo "Frontend UI bucket: $UIBUCKET"
+
+# Upload to the S3 bucket using the bucket name from CDK output
+aws s3 sync build/ s3://$UIBUCKET/
+
+# Get the CloudFront distribution ID
+CLOUDFRONT_URL=$(aws cloudformation describe-stacks --stack-name SampleBedrockWhisperPiiAudioSummarizerStack --query "Stacks[0].Outputs[?OutputKey=='CloudFrontURL'].OutputValue" --output text)
+CLOUDFRONT_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?DomainName=='$CLOUDFRONT_URL'].Id" --output text)
+echo "CloudFront distribution ID: $CLOUDFRONT_ID"
 
 # Invalidate CloudFront cache to see the changes immediately
-# Replace DISTRIBUTION_ID with your CloudFront distribution ID
-aws cloudfront create-invalidation --distribution-id DISTRIBUTION_ID --paths "/*"
+aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/*"
 ```
 
 ### Step 4: Verify and Test the Deployment

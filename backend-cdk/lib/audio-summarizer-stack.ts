@@ -71,7 +71,7 @@ export class AudioSummarizerStack extends cdk.Stack {
         UPLOADS_BUCKET: uploadsBucket.bucketName,
         SUMMARIES_BUCKET: summariesBucket.bucketName,
         REGION: cdk.Stack.of(this).region,
-        WHISPER_ENDPOINT: '' // Must be configured before deployment
+        WHISPER_ENDPOINT: 'endpoint-quick-start-irrc7' // Must be configured before deployment
       },
       logRetention: logs.RetentionDays.ONE_WEEK
     });
@@ -142,7 +142,7 @@ export class AudioSummarizerStack extends cdk.Stack {
       environment: {
         SUMMARIES_BUCKET: summariesBucket.bucketName,
         REGION: cdk.Stack.of(this).region,
-        GUARDRAIL_ID: '' // Must be configured before deployment
+        GUARDRAIL_ID: 'arn:aws:bedrock:us-east-1:064080936720:guardrail-profile/us.guardrail.v1:0' // Must be configured before deployment
       },
       logRetention: logs.RetentionDays.ONE_WEEK
     });
@@ -618,5 +618,9 @@ export class AudioSummarizerStack extends cdk.Stack {
       description: 'CloudFront URL',
       value: distribution.distributionDomainName,
     });
-  }
+
+    new cdk.CfnOutput(this, 'UIBucketName', {
+      description: 'Frontend UI S3 Bucket Name',
+      value: uiBucket.bucketName,
+    });  }
 }
